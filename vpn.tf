@@ -41,63 +41,47 @@ EOF
 resource "aws_security_group" "king-vpn" {
   name   = "king-vpn"
   vpc_id = "${module.king-vpc.vpc_id}"
+
+  # SSH
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+
+    # TODO: IP range
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # HTTPS
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # OpenVPN connections
+  ingress {
+    from_port   = 1194
+    to_port     = 1194
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # OpenVPN admin page
+  ingress {
+    from_port = 943
+    to_port   = 943
+    protocol  = "tcp"
+
+    # TODO: IP range
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
-
-resource "aws_security_group_rule" "king-vpn-allow-access-from-all-ssh" {
-  type        = "ingress"
-  from_port   = 22
-  to_port     = 22
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.king-vpn.id}"
-}
-
-resource "aws_security_group_rule" "king-vpn-allow-access-from-all-https" {
-  type        = "ingress"
-  from_port   = 443
-  to_port     = 443
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.king-vpn.id}"
-}
-
-resource "aws_security_group_rule" "king-vpn-allow-access-from-all-openvpn" {
-  type        = "ingress"
-  from_port   = 1194
-  to_port     = 1194
-  protocol    = "udp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.king-vpn.id}"
-}
-
-resource "aws_security_group_rule" "king-vpn-allow-access-from-all-openvpn-admin" {
-  type        = "ingress"
-  from_port   = 943
-  to_port     = 943
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.king-vpn.id}"
-}
-
-resource "aws_security_group_rule" "king-vpn-allow-access-to-all" {
-  type        = "egress"
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
-
-  security_group_id = "${aws_security_group.king-vpn.id}"
-}
-
-# resource "aws_route53_record" "king-vpn" {
-#   zone_id = ""
-#   name    = ""
-#   type    = "A"
-#   ttl     = "300"
-#   records = ["${aws_instance.king_vpc.public_ip}"]
-# }
-

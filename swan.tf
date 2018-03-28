@@ -26,7 +26,7 @@ resource "aws_instance" "king-swan" {
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [
-    "${aws_security_group.allow-access-from-all.id}",
+    "${aws_security_group.king-swan.id}",
   ]
 
   # TODO: 개선할 수 있을지 확인 필요
@@ -42,27 +42,27 @@ resource "aws_instance" "king-swan" {
   }
 }
 
-resource "aws_security_group" "allow-access-from-all" {
+resource "aws_security_group" "king-swan" {
   name   = "king-swan"
   vpc_id = "${module.king-vpc.vpc_id}"
 }
 
-resource "aws_security_group_rule" "allow-access-from-all" {
+resource "aws_security_group_rule" "king-swan-allow-access-from-all" {
   type        = "ingress"
   from_port   = 0
   to_port     = 0
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.allow-access-from-all.id}"
+  security_group_id = "${aws_security_group.king-swan.id}"
 }
 
-resource "aws_security_group_rule" "allow-access-to-all" {
+resource "aws_security_group_rule" "king-swan-allow-access-to-all" {
   type        = "egress"
   from_port   = 0
   to_port     = 0
   protocol    = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.allow-access-from-all.id}"
+  security_group_id = "${aws_security_group.king-swan.id}"
 }
