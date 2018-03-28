@@ -22,11 +22,23 @@ ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 curl https://bootstrap.pypa.io/get-pip.py | python3
 pip install --upgrade awscli
 
+download () {
+    RESOURCE_PATH="/tmp/resources"
+    RESOURCE_URL="$1"
+    BASENAME="$${RESOURCE_URL##*/}"
+    
+    mkdir -p "$RESOURCE_PATH"
+    if [ ! -f "$RESOURCE_PATH/$BASENAME" ]; then
+        curl -fLo "$RESOURCE_PATH/$BASENAME" "$RESOURCE_URL"
+    fi
+}
+
 # Install consul-template
-mkdir -p 
+download "https://releases.hashicorp.com/consul-template/0.19.4/consul-template_0.19.4_linux_amd64.tgz"
 tar -ozxvf /tmp/resources/consul-template_0.19.4_linux_amd64.tgz -C /usr/local/bin/
 
 # Install ripgrep
+download "https://github.com/BurntSushi/ripgrep/releases/download/0.7.1/ripgrep-0.7.1-x86_64-unknown-linux-musl.tar.gz"
 tar -ozxvf /tmp/resources/ripgrep-0.7.1-x86_64-unknown-linux-musl.tar.gz -C /tmp/ ripgrep-0.7.1-x86_64-unknown-linux-musl/{rg,complete/rg.bash-completion}
 mv /tmp/ripgrep-0.7.1-x86_64-unknown-linux-musl/rg /usr/local/bin/
 mv /tmp/ripgrep-0.7.1-x86_64-unknown-linux-musl/complete/rg.bash-completion /etc/bash_completion.d/
@@ -35,6 +47,9 @@ rmdir \
       /tmp/ripgrep-0.7.1-x86_64-unknown-linux-musl
 
 # Install jq
+download "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64"
+mkdir -p "resources/jq-linux64"
+
 mv /tmp/resources/jq-linux64 /usr/local/bin/jq
 chmod +x /usr/local/bin/jq
 
@@ -99,7 +114,7 @@ EOF
 
 cat <<EOF | sudo tee /home/ubuntu/consul-template.hcl
 consul {
-    address = "localhost:8500"
+    address = "king-consul.devscake.com:8500"
     retry {
         enabled = true
         attempts = 10
