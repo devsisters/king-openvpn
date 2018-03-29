@@ -9,15 +9,35 @@ data "terraform_remote_state" "king-vpn" {
 }
 
 provider "aws" {
-  alias = "seoul"
-
+  alias  = "seoul"
   region = "ap-northeast-2"
 }
 
 provider "aws" {
-  alias = "singapore"
-
+  alias  = "singapore"
   region = "ap-southeast-1"
+}
+
+resource "aws_customer_gateway" "king-seoul" {
+  provider   = "aws.seoul"
+  bgp_asn    = 65000
+  ip_address = "${aws_instance.king-swan.public_ip}"
+  type       = "ipsec.1"
+
+  tags {
+    Name = "king-vpn"
+  }
+}
+
+resource "aws_customer_gateway" "king-singapore" {
+  provider   = "aws.singapore"
+  bgp_asn    = 65000
+  ip_address = "${aws_instance.king-swan.public_ip}"
+  type       = "ipsec.1"
+
+  tags {
+    Name = "king-vpn"
+  }
 }
 
 module "custom-seoul-vpc" {
