@@ -77,7 +77,7 @@ net.ipv4.conf.default.rp_filter = 1
 net.ipv4.tcp_mtu_probing = 1
 EOF
 
-cat <<EOF | sudo tee /home/ubuntu/conf.tpl
+cat <<EOF >> /home/ubuntu/conf.tpl
 config setup
   strictcrlpolicy=no
   charondebug=all
@@ -104,7 +104,7 @@ conn {{ .Key }}
 {{- end }}
 EOF
 
-cat <<EOF | sudo tee /home/ubuntu/secrets.tpl
+cat <<EOF >> /home/ubuntu/secrets.tpl
 {{- range tree "king-swan/@dc1" }}
 {{- with \$d := .Value | parseJSON }}
 {{ \$d.tunnel_ip }} : PSK "{{ \$d.psk }}"
@@ -112,7 +112,7 @@ cat <<EOF | sudo tee /home/ubuntu/secrets.tpl
 {{- end }}
 EOF
 
-cat <<EOF | sudo tee /home/ubuntu/consul-template.hcl
+cat <<EOF >> /home/ubuntu/consul-template.hcl
 consul {
     address = "king-consul.devscake.com:8500"
     retry {
@@ -141,7 +141,7 @@ template {
 }
 EOF
 
-cat <<EOF | sudo tee /lib/systemd/system/consul-template.service
+cat <<EOF >> /lib/systemd/system/consul-template.service
 [Unit]
 Description=consul-template agent
 Requires=network-online.target

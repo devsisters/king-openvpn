@@ -31,6 +31,8 @@ resource "aws_instance" "king-vpn" {
   user_data = <<EOF
 admin_user=openvpn
 admin_pw=openvpn
+passwd openvpn
+king-openvpn
 EOF
 
   tags {

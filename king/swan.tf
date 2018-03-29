@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu-xenial" {
 }
 
 data "template_file" "king-swan-user-data" {
-  template = "${file("files/swan.sh")}"
+  template = "${file("../files/swan.sh")}"
 }
 
 # TODO: Setup consul address in user_data

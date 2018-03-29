@@ -1,5 +1,7 @@
 profile = "<<YOUR AWS PROFILE NAME>>"
 
+region = "<<YOUR AWS REGION>>"
+
 public_key_name = "<<YOUR AWS EC2 SSH PUBLIC KEY NAME>>"
 
 public_key_path = "<<YOUR LOCAL SSH PUBLIC KEY PATH>>"
