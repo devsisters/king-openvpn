@@ -1,3 +1,6 @@
+# https://registry.terraform.io/modules/terraform-aws-modules/vpn-gateway/aws/1.0.3
+# TODO: 이런거 쓸까?
+
 provider "aws" {
   alias  = "seoul"
   region = "ap-northeast-2"
