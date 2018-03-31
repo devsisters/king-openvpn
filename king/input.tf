@@ -43,3 +43,7 @@ variable "public_key_name" {
 variable "public_key_path" {
   description = "The local public key path"
 }
+
+variable "openvpn_admin_password" {
+  description = "OpenVPN admin password"
+}

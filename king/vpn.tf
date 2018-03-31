@@ -15,6 +15,14 @@ data "aws_ami" "openvpn-access-server" {
   owners = ["679593333241"]
 }
 
+data "template_file" "king-vpn-user-data" {
+  template = "${file("../files/vpn.sh")}"
+
+  vars {
+    openvpn_admin_password = "${var.openvpn_admin_password}"
+  }
+}
+
 resource "aws_instance" "king-vpn" {
   ami = "${data.aws_ami.openvpn-access-server.id}"
 
@@ -28,12 +36,7 @@ resource "aws_instance" "king-vpn" {
 
   subnet_id = "${module.king-vpc.public_subnets[0]}"
 
-  user_data = <<EOF
-admin_user=openvpn
-admin_pw=openvpn
-passwd openvpn
-king-openvpn
-EOF
+  user_data = "${data.template_file.king-vpn-user-data.rendered}"
 
   tags {
     Name = "king-vpn"
