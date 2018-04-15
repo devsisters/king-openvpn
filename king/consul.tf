@@ -62,7 +62,7 @@ resource "aws_instance" "king-consul" {
     "${aws_security_group.king-consul.id}",
   ]
 
-  subnet_id = "${module.king-vpc.public_subnets[1]}"
+  subnet_id = "${module.king-vpc.public_subnets[0]}"
 
   count = 3
 

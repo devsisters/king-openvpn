@@ -3,8 +3,10 @@ data "aws_ami" "openvpn-access-server" {
   most_recent = true
 
   filter {
-    name   = "name"
-    values = ["OpenVPN Access Server *"]
+    name = "name"
+
+    // 간혹 라이센스가 포함된 AMI가 있으므로 BYOL버전 이미지로 고정
+    values = ["OpenVPN Access Server 2.5.0-fe8020db-5343-4c43-9e65-5ed4a825c931-ami-548e4429.4"]
   }
 
   filter {
@@ -26,7 +28,7 @@ data "template_file" "king-vpn-user-data" {
 resource "aws_instance" "king-vpn" {
   ami = "${data.aws_ami.openvpn-access-server.id}"
 
-  instance_type = "t2.medium"
+  instance_type = "t2.micro"
 
   key_name = "${var.public_key_name}"
 

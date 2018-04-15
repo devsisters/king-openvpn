@@ -29,10 +29,15 @@ variable "public_subnet_cidr_blocks" {
   description = "The CIDR block for the public subnets"
 
   default = [
-    "172.29.0.0/18",
-    "172.29.64.0/18",
-    "172.29.128.0/18",
-    "172.29.192.0/18",
+    "172.29.0.0/17",
+  ]
+}
+
+variable "private_subnet_cidr_blocks" {
+  description = "The CIDR block for the private subnets"
+
+  default = [
+    "172.29.128.0/17",
   ]
 }
 

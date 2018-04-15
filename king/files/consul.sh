@@ -58,7 +58,7 @@ download "https://releases.hashicorp.com/consul/1.0.3/consul_1.0.3_linux_amd64.z
 apt install -y unzip
 unzip /tmp/resources/consul_1.0.3_linux_amd64.zip -d /usr/local/bin/
 
-cat <<EOF >> /home/ubuntu/consul.config.json
+cat <<EOF | tee /home/ubuntu/consul.config.json
 {
     "data_dir": "/home/ubuntu/consul",
     "log_level": "INFO",
@@ -72,7 +72,7 @@ cat <<EOF >> /home/ubuntu/consul.config.json
 }
 EOF
 
-cat <<EOF >> tee /lib/systemd/system/consul.service
+cat <<EOF | tee /lib/systemd/system/consul.service
 [Unit]
 Description=consul agent
 Requires=network-online.target
@@ -81,7 +81,7 @@ After=network-online.target
 Environment=GOMAXPROCS=2
 Restart=on-failure
 ExecStart=/usr/local/bin/consul agent -config-file=/home/ubuntu/consul.config.json
-ExecReload=/bin/kill -HUP $MAINPID
+ExecReload=/bin/kill -HUP \$MAINPID
 KillSignal=SIGINT
 [Install]
 WantedBy=multi-user.target
