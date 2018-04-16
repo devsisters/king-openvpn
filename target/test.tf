@@ -2,8 +2,8 @@ data "terraform_remote_state" "king-vpn" {
   backend = "s3"
 
   config {
-    bucket = "king-terraform-state"
-    key    = "king-swan.tfstate"
+    bucket = "${var.king}"
+    key    = "king-vpn/terraform.tfstate"
     region = "ap-northeast-1"
   }
 }

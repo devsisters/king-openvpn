@@ -1,4 +1,4 @@
-data "template_file" "king-consul-user-data" {
+data "template_file" "king_consul_user_data" {
   template = "${file("../files/consul.sh")}"
 }
 
@@ -39,7 +39,7 @@ resource "aws_iam_instance_profile" "ec2" {
   }
 }
 
-resource "aws_iam_policy" "ec2-describe-instances" {
+resource "aws_iam_policy" "ec2_describe_instances" {
   name_prefix = "king-consul"
   description = "policy for king-consul"
 
@@ -48,25 +48,25 @@ resource "aws_iam_policy" "ec2-describe-instances" {
 
 resource "aws_iam_role_policy_attachment" "ec2" {
   role       = "${aws_iam_role.ec2.name}"
-  policy_arn = "${aws_iam_policy.ec2-describe-instances.arn}"
+  policy_arn = "${aws_iam_policy.ec2_describe_instances.arn}"
 }
 
-resource "aws_instance" "king-consul" {
-  ami           = "${data.aws_ami.ubuntu-xenial.id}"
+resource "aws_instance" "king_consul" {
+  ami           = "${data.aws_ami.ubuntu_xenial.id}"
   instance_type = "t2.micro"
   key_name      = "${var.public_key_name}"
 
   iam_instance_profile = "${aws_iam_instance_profile.ec2.name}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.king-consul.id}",
+    "${aws_security_group.king_consul.id}",
   ]
 
-  subnet_id = "${module.king-vpc.public_subnets[0]}"
+  subnet_id = "${module.king_vpc.public_subnets[0]}"
 
   count = 3
 
-  user_data = "${data.template_file.king-consul-user-data.rendered}"
+  user_data = "${data.template_file.king_consul_user_data.rendered}"
 
   tags {
     Name       = "king-consul-${count.index}"
@@ -74,15 +74,15 @@ resource "aws_instance" "king-consul" {
   }
 }
 
-resource "aws_security_group" "king-consul" {
+resource "aws_security_group" "king_consul" {
   name   = "king-consul"
-  vpc_id = "${module.king-vpc.vpc_id}"
+  vpc_id = "${module.king_vpc.vpc_id}"
 
   ingress {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = ["${aws_security_group.king-vpn.id}", "${aws_security_group.king-swan.id}"]
+    security_groups = ["${aws_security_group.king_vpn.id}", "${aws_security_group.king_swan.id}"]
     self            = true
   }
 

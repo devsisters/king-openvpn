@@ -1,9 +1,9 @@
 profile = "<<YOUR AWS PROFILE NAME>>"
 
-region = "<<YOUR AWS REGION>>"
-
 public_key_name = "<<YOUR AWS EC2 SSH PUBLIC KEY NAME>>"
 
 public_key_path = "<<YOUR LOCAL SSH PUBLIC KEY PATH>>"
 
 openvpn_admin_password = "<<YOUR OPENVPN ADMIN PASSWORD>>"
+
+remote_state_s3_bucket_name = "<<YOUR S3 BUCKET NAME>>"

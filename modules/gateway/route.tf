@@ -5,7 +5,7 @@ resource "aws_route" "king-swan" {
 }
 
 resource "aws_route" "king-vpc" {
-  route_table_id         = "${data.terraform_remote_state.king-swan.aws_public_route_table_id}"
+  route_table_id         = "${data.terraform_remote_state.king_vpn.aws_public_route_table_id}"
   destination_cidr_block = "${var.vpc_cidr_block}"
-  network_interface_id   = "${data.terraform_remote_state.king-swan.network_interface_id}"
+  network_interface_id   = "${data.terraform_remote_state.king_vpn.network_interface_id}"
 }

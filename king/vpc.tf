@@ -1,4 +1,4 @@
-module "king-vpc" {
+module "king_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = "king-vpc"

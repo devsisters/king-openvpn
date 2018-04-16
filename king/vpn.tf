@@ -1,5 +1,5 @@
 # OpenVPN Access Server
-data "aws_ami" "openvpn-access-server" {
+data "aws_ami" "openvpn_access_server" {
   most_recent = true
 
   filter {
@@ -17,7 +17,7 @@ data "aws_ami" "openvpn-access-server" {
   owners = ["679593333241"]
 }
 
-data "template_file" "king-vpn-user-data" {
+data "template_file" "king_vpn_user_data" {
   template = "${file("../files/vpn.sh")}"
 
   vars {
@@ -25,29 +25,29 @@ data "template_file" "king-vpn-user-data" {
   }
 }
 
-resource "aws_instance" "king-vpn" {
-  ami = "${data.aws_ami.openvpn-access-server.id}"
+resource "aws_instance" "king_vpn" {
+  ami = "${data.aws_ami.openvpn_access_server.id}"
 
   instance_type = "t2.micro"
 
   key_name = "${var.public_key_name}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.king-vpn.id}",
+    "${aws_security_group.king_vpn.id}",
   ]
 
-  subnet_id = "${module.king-vpc.public_subnets[0]}"
+  subnet_id = "${module.king_vpc.public_subnets[0]}"
 
-  user_data = "${data.template_file.king-vpn-user-data.rendered}"
+  user_data = "${data.template_file.king_vpn_user_data.rendered}"
 
   tags {
     Name = "king-vpn"
   }
 }
 
-resource "aws_security_group" "king-vpn" {
+resource "aws_security_group" "king_vpn" {
   name   = "king-vpn"
-  vpc_id = "${module.king-vpc.vpc_id}"
+  vpc_id = "${module.king_vpc.vpc_id}"
 
   # SSH
   ingress {

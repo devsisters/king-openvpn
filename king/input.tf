@@ -2,11 +2,6 @@ variable "profile" {
   description = "AWS profile to use for deployment"
 }
 
-variable "region" {
-  description = "Region to deploy the king-swan"
-  default     = "ap-northeast-1"
-}
-
 variable "azs" {
   description = "List of availability zones to deploy the king-swan"
 
@@ -51,4 +46,8 @@ variable "public_key_path" {
 
 variable "openvpn_admin_password" {
   description = "OpenVPN admin password"
+}
+
+variable "remote_state_s3_bucket_name" {
+  description = "S3 bucket name for remote state store"
 }
