@@ -1,7 +1,3 @@
-variable "profile" {
-  description = "AWS profile to use for deployment"
-}
-
 variable "azs" {
   description = "List of availability zones to deploy the king-swan"
 

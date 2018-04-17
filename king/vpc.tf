@@ -1,5 +1,14 @@
+provider "aws" {
+  alias  = "abc"
+  region = "us-west-1"
+}
+
 module "king_vpc" {
   source = "terraform-aws-modules/vpc/aws"
+
+  providers = {
+    aws = "aws.abc"
+  }
 
   name = "king-vpc"
 

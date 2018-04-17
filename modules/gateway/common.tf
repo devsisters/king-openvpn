@@ -1,6 +1,5 @@
 provider "aws" {
   region = "ap-northeast-1"
-  alias  = "${var.profile}"
 }
 
 data "terraform_remote_state" "king_vpn" {
@@ -14,5 +13,5 @@ data "terraform_remote_state" "king_vpn" {
 }
 
 locals {
-  king_vpc_cidr_block = "172.16.0.0/16"
+  king_vpc_cidr_block = "172.29.0.0/16"
 }
