@@ -30,7 +30,7 @@ resource "aws_instance" "king_swan" {
   ]
 
   # TODO: 개선할 수 있을지 확인 필요
-  subnet_id         = "${module.king_vpc.public_subnets[0]}"
+  subnet_id         = "${module.king_vpc.public_common_subnet_id}"
   source_dest_check = "false"
 
   key_name = "${var.public_key_name}"

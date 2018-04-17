@@ -45,39 +45,21 @@ resource "aws_customer_gateway" "king_singapore" {
 }
 
 module "custom_seoul_vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/vpc"
 
-  providers = {
-    aws = "aws.seoul"
-  }
-
-  name = "king-custom-vpc"
-
-  cidr = "172.30.0.0/16"
-
-  azs             = ["ap-northeast-2a"]
-  public_subnets  = ["172.30.0.0/17"]
-  private_subnets = ["172.30.128.0/17"]
-
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  name       = "king-custom-vpc"
+  aws_region = "ap-northeast-2"
+  az_main    = "a"
+  az_sub     = "c"
+  cidr_block = "172.30.0.0/16"
 }
 
 module "custom_singapore_vpc" {
-  source = "terraform-aws-modules/vpc/aws"
+  source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/vpc"
 
-  providers = {
-    aws = "aws.singapore"
-  }
-
-  name = "king-custom-vpc"
-
-  cidr = "172.31.0.0/16"
-
-  azs             = ["ap-southeast-1a"]
-  public_subnets  = ["172.31.0.0/17"]
-  private_subnets = ["172.31.128.0/17"]
-
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  name       = "king-custom-vpc"
+  aws_region = "ap-southeast-1"
+  az_main    = "a"
+  az_sub     = "c"
+  cidr_block = "172.31.0.0/16"
 }

@@ -36,7 +36,7 @@ resource "aws_instance" "king_vpn" {
     "${aws_security_group.king_vpn.id}",
   ]
 
-  subnet_id = "${module.king_vpc.public_subnets[0]}"
+  subnet_id = "${module.king_vpc.public_common_subnet_id}"
 
   user_data = "${data.template_file.king_vpn_user_data.rendered}"
 
