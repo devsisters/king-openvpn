@@ -36,10 +36,6 @@ variable "public_key_name" {
   description = "The name of the key to user for ssh access"
 }
 
-variable "public_key_path" {
-  description = "The local public key path"
-}
-
 variable "openvpn_admin_password" {
   description = "OpenVPN admin password"
 }

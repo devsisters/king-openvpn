@@ -1,20 +1,3 @@
-# Ubuntu Server 16.04 LTS (HVM)
-data "aws_ami" "ubuntu_xenial" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"]
-}
-
 data "template_file" "king_swan_user_data" {
   template = "${file("../files/swan.sh")}"
 }

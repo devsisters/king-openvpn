@@ -1,15 +1,5 @@
 provider "aws" {
-  region = "ap-northeast-1"
-}
-
-provider "aws" {
-  alias  = "seoul"
   region = "ap-northeast-2"
-}
-
-provider "aws" {
-  alias  = "singapore"
-  region = "ap-southeast-1"
 }
 
 data "terraform_remote_state" "king_vpn" {
@@ -22,19 +12,24 @@ data "terraform_remote_state" "king_vpn" {
   }
 }
 
-resource "aws_customer_gateway" "king_seoul" {
-  provider   = "aws.seoul"
-  bgp_asn    = 65000
-  ip_address = "${data.terraform_remote_state.king_vpn.king_swan_public_ip}"
-  type       = "ipsec.1"
+# Ubuntu Server 16.04 LTS (HVM)
+data "aws_ami" "ubuntu_xenial" {
+  most_recent = true
 
-  tags {
-    Name = "king-vpn"
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
   }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
 }
 
-resource "aws_customer_gateway" "king_singapore" {
-  provider   = "aws.singapore"
+resource "aws_customer_gateway" "king_seoul" {
   bgp_asn    = 65000
   ip_address = "${data.terraform_remote_state.king_vpn.king_swan_public_ip}"
   type       = "ipsec.1"
@@ -54,12 +49,38 @@ module "custom_seoul_vpc" {
   cidr_block = "172.30.0.0/16"
 }
 
-module "custom_singapore_vpc" {
-  source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/vpc"
+resource "aws_instance" "king_seoul" {
+  ami           = "${data.aws_ami.ubuntu_xenial.id}"
+  instance_type = "t2.micro"
+  key_name      = "${var.seoul_public_key_name}"
 
-  name       = "king-custom-vpc"
-  aws_region = "ap-southeast-1"
-  az_main    = "a"
-  az_sub     = "c"
-  cidr_block = "172.31.0.0/16"
+  vpc_security_group_ids = [
+    "${aws_security_group.king_seoul.id}",
+  ]
+
+  subnet_id = "${module.custom_seoul_vpc.public_common_subnet_id}"
+
+  tags {
+    Name = "king-seoul"
+  }
+}
+
+resource "aws_security_group" "king_seoul" {
+  name   = "king-seoul"
+  vpc_id = "${module.custom_seoul_vpc.vpc_id}"
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    self        = true
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
