@@ -55,7 +55,7 @@ resource "aws_instance" "king_seoul" {
   key_name      = "${var.seoul_public_key_name}"
 
   vpc_security_group_ids = [
-    "${aws_security_group.king_seoul.id}",
+    "${module.king_gateway.sg_id}",
   ]
 
   subnet_id = "${module.custom_seoul_vpc.public_common_subnet_id}"
@@ -65,22 +65,14 @@ resource "aws_instance" "king_seoul" {
   }
 }
 
-resource "aws_security_group" "king_seoul" {
-  name   = "king-seoul"
-  vpc_id = "${module.custom_seoul_vpc.vpc_id}"
+module "king_gateway" {
+  # source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/gateway"
+  source = "../modules/gateway"
 
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    self        = true
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  region                               = "ap-northeast-2"
+  vpc_id                               = "${module.custom_seoul_vpc.vpc_id}"
+  aws_public_route_table_id            = "${module.custom_seoul_vpc.aws_public_route_table_id}"
+  customer_gateway_id                  = "${aws_customer_gateway.king_seoul.id}"
+  consul_address                       = "${data.terraform_remote_state.king_vpn.king_consul_private_ip}"
+  king_vpn_remote_state_s3_bucket_name = "${var.king_vpn_remote_state_s3_bucket_name}"
 }

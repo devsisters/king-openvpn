@@ -17,3 +17,11 @@ output "king_swan_sg_id" {
 output "king_swan_network_interface_id" {
   value = "${aws_instance.king_swan.network_interface_id}"
 }
+
+output "king_consul_private_ip" {
+  value = "${aws_instance.king_consul.0.private_ip}"
+}
+
+output "aws_public_route_table_id" {
+  value = "${module.king_vpc.aws_public_route_table_id}"
+}

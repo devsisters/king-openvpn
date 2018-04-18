@@ -94,7 +94,7 @@ conn %default
   auto=start
   left=%defaultroute
   leftid=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
-  leftsubnet=172.16.0.0/16
+  leftsubnet=172.29.0.0/16
 {{- range tree "king-swan/@dc1" }}
 conn {{ .Key }}
 {{- with \$d := .Value | parseJSON }}
@@ -114,7 +114,7 @@ EOF
 
 cat <<EOF | tee /home/ubuntu/consul-template.hcl
 consul {
-    address = "king-consul.devscake.com:8500"
+    address = "${king_consul_private_ip}:8500"
     retry {
         enabled = true
         attempts = 10
@@ -157,5 +157,6 @@ KillSignal=SIGINT
 WantedBy=multi-user.target
 EOF
 
+sysctl -p
 ln -sf /lib/systemd/system/consul-template.service /etc/systemd/system/consul-template.service
 service consul-template start
