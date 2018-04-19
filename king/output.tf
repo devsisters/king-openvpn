@@ -5,3 +5,7 @@ output "king_vpn_private_ip" {
 output "aws_public_route_table_id" {
   value = "${module.king_vpc.aws_public_route_table_id}"
 }
+
+output "aws_private_route_table_id" {
+  value = "${module.king_vpc.aws_private_route_table_id}"
+}
