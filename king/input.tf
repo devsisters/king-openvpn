@@ -10,7 +10,3 @@ variable "public_key_name" {
 variable "openvpn_admin_password" {
   description = "OpenVPN admin password"
 }
-
-variable "remote_state_s3_bucket_name" {
-  description = "S3 bucket name for remote state store"
-}
