@@ -64,15 +64,3 @@ resource "aws_instance" "king_seoul" {
     Name = "king-seoul"
   }
 }
-
-module "king_gateway" {
-  # source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/gateway"
-  source = "../modules/gateway"
-
-  region                               = "ap-northeast-2"
-  vpc_id                               = "${module.custom_seoul_vpc.vpc_id}"
-  aws_public_route_table_id            = "${module.custom_seoul_vpc.aws_public_route_table_id}"
-  customer_gateway_id                  = "${aws_customer_gateway.king_seoul.id}"
-  consul_address                       = "${data.terraform_remote_state.king_vpn.king_consul_private_ip}"
-  king_vpn_remote_state_s3_bucket_name = "${var.king_vpn_remote_state_s3_bucket_name}"
-}
