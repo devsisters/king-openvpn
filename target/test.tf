@@ -40,7 +40,7 @@ resource "aws_customer_gateway" "king_seoul" {
 }
 
 module "custom_seoul_vpc" {
-  source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/vpc"
+  source = "git@github.com:devsisters/king-openvpn.git?ref=modules//vpc"
 
   name       = "king-custom-vpc"
   aws_region = "ap-northeast-2"
@@ -66,8 +66,7 @@ resource "aws_instance" "king_seoul" {
 }
 
 module "king_gateway" {
-  # source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/gateway"
-  source = "../modules/gateway"
+  source = "git@github.com:devsisters/king-openvpn.git?ref=modules//gateway"
 
   region                               = "ap-northeast-2"
   vpc_id                               = "${module.custom_seoul_vpc.vpc_id}"
