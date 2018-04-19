@@ -1,5 +1,5 @@
 data "template_file" "king_swan_user_data" {
-  template = "${file("../files/swan.sh")}"
+  template = "${file("files/swan.sh")}"
 
   vars = {
     king_consul_private_ip = "${aws_instance.king_consul.0.private_ip}"

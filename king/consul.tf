@@ -1,5 +1,5 @@
 data "template_file" "king_consul_user_data" {
-  template = "${file("../files/consul.sh")}"
+  template = "${file("files/consul.sh")}"
 }
 
 data "aws_iam_policy_document" "ec2_describe_instances" {
