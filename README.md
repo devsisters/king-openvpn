@@ -55,21 +55,21 @@ AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 �
     
 4. 생성될 resource들을 확인한 후 yes를 입력합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/terraform_apply.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/terraform_apply.png?raw=true)
     
 5. AWS 콘솔에서 OpenVPN instance의 public ip를 확인한 뒤(예를 들면 13.113.104.76) 브라우저에서 `https://13.113.104.76` 으로 접속합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpn1.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpn1.png?raw=true)
     
 6. Username은 `openvpn`, password는 1에서 넣은 것으로 로그인하면 OpenVPN Connect를 다운받을 수 있습니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpn2.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpn2.png?raw=true)
     
 7. OpenVPN Connect 설치/실행 후에 13.113.104.76로 연결합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpn3.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpn3.png?raw=true)
     
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpn4.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpn4.png?raw=true)
   
 
 ## 테스트용 VPC 연결하기
@@ -101,18 +101,18 @@ AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 �
 
 4. 브라우저에서 `https://13.113.104.76:943/admin`(OpenVPN admin)으로 접속합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin1.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpnadmin1.png?raw=true)
 
 5. 좌측 메뉴바에서 `VPN Settings`를 클릭해 들어간 뒤, `Routing` 입력란에 `172.30.0.0/16`(테스트 VPC의 CIDR block)을 입력하고 `Save Settings` 버튼을 클릭합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin2.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpnadmin2.png?raw=true)
     
 6. `Update Running Server` 버튼을 클릭하여 현재 실행 중인 VPN에 적용합니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin3.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpnadmin3.png?raw=true)
     
 7. AWS 콘솔에서 Singapore region에 생성된 테스트용 EC2 instance의 private ip를 확인한 뒤, ssh 연결이 timeout되지 않는지 확인합니다.
 
     아래와 같은 응답이 오면 성공적으로 VPC peering이 이루어진 것입니다.
 
-    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/sshconnecttry.png?raw=true)
+    ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/sshconnecttry.png?raw=true)
