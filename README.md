@@ -1,9 +1,11 @@
 # King-OpenVPN (VPC peering)
 
-## 설명
 AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 하나의 VPN을 만드는 테라폼 코드입니다.
+
 **king** 디렉토리에는 **도쿄(ap-northeast-1, 고정)** region에 OpenVPN 인스턴스를 띄우는 코드가 들어있고, **target** 디렉토리에는 이 VPN을 통해 다른 VPC에 접속할 수 있도록 구성한 예제가 들어있습니다. 
+
 **서울(ap-northeast-2)** region은 다른 region과의 vpc peering을 지원하지 않으므로, 서울을 포함한 여러 region들에 걸쳐서 VPN을 구성하는 경우에는 **strongswan** branch를 사용해주시기 바랍니다.
+
 이 프로젝트는 **MacOS** 환경을 기준으로 작성되었습니다.
 
 
