@@ -1,5 +1,5 @@
 module "king_vpc" {
-  source = "git@github.com:devsisters/king-openvpn.git?ref=master//modules/vpc"
+  source = "git@github.com:devsisters/king-openvpn.git?ref=modules//modules/vpc"
 
   name       = "king-vpc"
   aws_region = "ap-northeast-1"

@@ -18,7 +18,7 @@ data "aws_ami" "openvpn_access_server" {
 }
 
 data "template_file" "king_vpn_user_data" {
-  template = "${file("../files/vpn.sh")}"
+  template = "${file("files/vpn.sh")}"
 
   vars {
     openvpn_admin_password = "${var.openvpn_admin_password}"
