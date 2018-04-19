@@ -16,7 +16,7 @@ AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 �
 3. EC2, VPC 및 S3에 접근 가능한 AWS access key를 마련하여 ~/.aws/credentials 에 저장합니다.
 4. brew install terraform
 
-## OpenVPN 띄우기
+## King-VPN 띄우기
 1. 먼저 king 디렉토리에 가서 `terraform.tfvars`를 생성하고 알맞게 수정합니다.
     ```
     $ cd king
@@ -72,3 +72,47 @@ AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 �
     ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpn4.png?raw=true)
   
 
+## 테스트용 VPC 연결하기
+0. 테스트는 **싱가폴(ap-southeast-1)** region에서 하도록 세팅되어 있습니다.
+    
+    테스트용 VPC의 CIDR block은 `172.30.0.0/16`으로 고정되어 있습니다.
+    
+    싱가폴 리젼에 미리 EC2 key pair를 하나 만들어 둡니다.
+
+1. target 디렉토리에 가서 `terraform.tfvars`를 생성하고 알맞게 수정합니다.
+    ```
+    $ cd target
+    $ cp terraform.tfvars.example terraform.tfvars
+    ```
+    ```
+    # target/terraform.tfvars
+    
+    singapore_public_key_name = "<< 싱가폴 리젼에 EC2 인스턴스를 띄울때 쓸 key pair 이름 >>"
+
+    king_vpn_remote_state_s3_bucket_name = "<< King-VPN의 terraform remote state s3 bucket name >>"
+    ```
+    
+2.  ```
+    $ terraform init
+    $ terraform apply
+    ```
+
+3. 생성될 resource들을 확인한 후 yes를 입력합니다.
+
+4. 브라우저에서 `https://13.113.104.76:943/admin`(OpenVPN admin)으로 접속합니다.
+
+    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin1.png?raw=true)
+
+5. 좌측 메뉴바에서 `VPN Settings`를 클릭해 들어간 뒤, `Routing` 입력란에 `172.30.0.0/16`(테스트 VPC의 CIDR block)을 입력하고 `Save Settings` 버튼을 클릭합니다.
+
+    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin2.png?raw=true)
+    
+6. `Update Running Server` 버튼을 클릭하여 현재 실행 중인 VPN에 적용합니다.
+
+    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/openvpnadmin3.png?raw=true)
+    
+7. AWS 콘솔에서 Singapore region에 생성된 테스트용 EC2 instance의 private ip를 확인한 뒤, ssh 연결이 timeout되지 않는지 확인합니다.
+
+    아래와 같은 응답이 오면 성공적으로 VPC peering이 이루어진 것입니다.
+
+    ![](https://github.com/devsisters/king-openvpn/blob/vpc-peering/screenshots/sshconnecttry.png?raw=true)
