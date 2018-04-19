@@ -17,6 +17,7 @@ data "aws_ami" "openvpn_access_server" {
   owners = ["679593333241"]
 }
 
+# userdata (패스워드 바꾸는 커맨드밖에 없음)
 data "template_file" "king_vpn_user_data" {
   template = "${file("files/vpn.sh")}"
 
@@ -25,6 +26,7 @@ data "template_file" "king_vpn_user_data" {
   }
 }
 
+# VPN instance
 resource "aws_instance" "king_vpn" {
   ami = "${data.aws_ami.openvpn_access_server.id}"
 
@@ -55,7 +57,17 @@ resource "aws_security_group" "king_vpn" {
     to_port   = 22
     protocol  = "tcp"
 
-    # TODO: IP range
+    # TODO: 적절한 범위로 조정해주세요
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # OpenVPN admin page
+  ingress {
+    from_port = 943
+    to_port   = 943
+    protocol  = "tcp"
+
+    # TODO: 적절한 범위로 조정해주세요
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -72,16 +84,6 @@ resource "aws_security_group" "king_vpn" {
     from_port   = 1194
     to_port     = 1194
     protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  # OpenVPN admin page
-  ingress {
-    from_port = 943
-    to_port   = 943
-    protocol  = "tcp"
-
-    # TODO: IP range
     cidr_blocks = ["0.0.0.0/0"]
   }
 

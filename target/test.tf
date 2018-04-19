@@ -2,12 +2,15 @@ provider "aws" {
   region = "ap-southeast-1"
 }
 
+# king-vpn의 state
 data "terraform_remote_state" "king_vpn" {
   backend = "s3"
 
   config {
     bucket = "${var.king_vpn_remote_state_s3_bucket_name}"
     key    = "king-vpn/terraform.tfstate"
+
+    # remote state bucket region은 Tokyo로 고정
     region = "ap-northeast-1"
   }
 }
@@ -29,6 +32,7 @@ data "aws_ami" "ubuntu_xenial" {
   owners = ["099720109477"]
 }
 
+# 테스트용 vpc
 module "custom_singapore_vpc" {
   source = "git@github.com:devsisters/king-openvpn.git?ref=modules//modules/vpc"
 
@@ -39,6 +43,7 @@ module "custom_singapore_vpc" {
   cidr_block = "172.30.0.0/16"
 }
 
+# king-vpc와 peering
 module "vpc_peering" {
   source = "git@github.com:devsisters/king-openvpn.git?ref=modules//modules/peering"
 
@@ -53,6 +58,7 @@ module "vpc_peering" {
   remote_private_route_table_id = "${data.terraform_remote_state.king_vpn.aws_private_route_table_id}"
 }
 
+# 테스트용 인스턴스
 resource "aws_instance" "king_singapore" {
   ami           = "${data.aws_ami.ubuntu_xenial.id}"
   instance_type = "t2.micro"
@@ -77,6 +83,7 @@ resource "aws_security_group" "king_singapore" {
     to_port   = 22
     protocol  = "tcp"
 
+    # vpn의 private ip를 열어주어야 함
     cidr_blocks = ["${data.terraform_remote_state.king_vpn.king_vpn_private_ip}/32"]
   }
 
