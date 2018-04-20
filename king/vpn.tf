@@ -5,7 +5,7 @@ data "aws_ami" "openvpn_access_server" {
   filter {
     name = "name"
 
-    // 간혹 라이센스가 포함된 AMI가 있으므로 BYOL버전 이미지로 고정
+    # 간혹 라이센스가 포함된 AMI가 있으므로 BYOL버전 이미지로 고정
     values = ["OpenVPN Access Server 2.5.0-fe8020db-5343-4c43-9e65-5ed4a825c931-ami-548e4429.4"]
   }
 
