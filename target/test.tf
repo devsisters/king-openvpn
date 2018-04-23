@@ -46,7 +46,7 @@ module "custom_seoul_vpc" {
   aws_region = "ap-northeast-2"
   az_main    = "a"
   az_sub     = "c"
-  cidr_block = "172.30.0.0/16"
+  cidr_block = "172.172.0.0/16"
 }
 
 resource "aws_instance" "king_seoul" {
@@ -74,4 +74,8 @@ module "king_gateway" {
   customer_gateway_id                  = "${aws_customer_gateway.king_seoul.id}"
   consul_address                       = "${data.terraform_remote_state.king_vpn.king_consul_private_ip}"
   king_vpn_remote_state_s3_bucket_name = "${var.king_vpn_remote_state_s3_bucket_name}"
+}
+
+output "target_private_ip" {
+  value = "${aws_instance.king_seoul.private_ip}"
 }
