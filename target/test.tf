@@ -40,7 +40,7 @@ module "custom_singapore_vpc" {
   aws_region = "ap-southeast-1"
   az_main    = "a"
   az_sub     = "c"
-  cidr_block = "172.30.0.0/16"
+  cidr_block = "172.172.0.0/16"
 }
 
 # king-vpc와 peering
@@ -93,4 +93,8 @@ resource "aws_security_group" "king_singapore" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+output "target_private_ip" {
+  value = "${aws_instance.king_seoul.private_ip}"
 }
