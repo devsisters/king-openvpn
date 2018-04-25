@@ -75,7 +75,7 @@
 ## 테스트용 VPC 연결하기
 0. 테스트는 **싱가폴(ap-southeast-1)** region에서 하도록 세팅되어 있습니다.
     
-    테스트용 VPC의 CIDR block은 `172.30.0.0/16`으로 고정되어 있습니다.
+    테스트용 VPC의 CIDR block은 `172.172.0.0/16`으로 고정되어 있습니다.
     
     싱가폴 리젼에 미리 EC2 key pair를 하나 만들어 둡니다.
 
@@ -103,7 +103,7 @@
 
     ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpnadmin1.png?raw=true)
 
-5. 좌측 메뉴바에서 `VPN Settings`를 클릭해 들어간 뒤, `Routing` 입력란에 `172.30.0.0/16`(테스트 VPC의 CIDR block)을 입력하고 `Save Settings` 버튼을 클릭합니다.
+5. 좌측 메뉴바에서 `VPN Settings`를 클릭해 들어간 뒤, `Routing` 입력란에 `172.172.0.0/16`(테스트 VPC의 CIDR block)을 입력하고 `Save Settings` 버튼을 클릭합니다.
 
     ![](https://github.com/devsisters/king-openvpn/blob/screenshots/screenshots/openvpnadmin2.png?raw=true)
     
