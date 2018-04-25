@@ -1,5 +1,3 @@
 seoul_public_key_name = "<<YOUR AWS EC2 SSH PUBLIC KEY NAME IN SEOUL>>"
 
-singapore_public_key_name = "<<YOUR AWS EC2 SSH PUBLIC KEY NAME IN SINGAPORE>>"
-
 king_vpn_remote_state_s3_bucket_name = "<<KING VPN REMOTE STATE S3 BUCKET NAME>>"
