@@ -1,4 +1,14 @@
-# King-OpenVPN (Strongswan)
+# King-OpenVPN with Strongswan (DEPRECATED)
+
+2018-08-24
+
+AWS가 서울 region과 다른 region과의 vpc peering을 지원하지 않아서 Strongswan을 사용해서 VPN을 구성했는데,
+
+이제는 서울에도 지원하기 때문에 이렇게까지 할 필요가 없어졌습니다.
+
+코드는 참고용으로 남겨놓습니다.
+
+---
 
 * AWS에서 Customer Gateway, Virtual Private Gateway, VPN Connection 및 Strongswan을 이용하여 원하는 모든 네트워크에 접속 가능한 하나의 VPN을 만드는 테라폼 코드입니다.
 
