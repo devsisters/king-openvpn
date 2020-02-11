@@ -1,3 +1,8 @@
+# Deprecated
+
+AWS [Transit Gateway](https://aws.amazon.com/transit-gateway/?nc1=h_ls)를 사용하여 쉽게 대체할 수 있습니다. Transit Gateway 쓰세요!
+
+
 # King-OpenVPN
 
 * AWS에서 VPC peering을 이용하여 원하는 모든 VPC에 접속 가능한 하나의 VPN을 만드는 테라폼 코드입니다.
